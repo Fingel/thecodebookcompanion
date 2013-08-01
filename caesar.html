@@ -23,7 +23,7 @@
        <div class="row">
            <div class="col-lg-8">
            <h1>The Caesar Shift</h1>
-        <p class="lead">A very simple cipher where the key is a number, n. Simply shift the letters n places in the alphabet to generate the Ciphertext. Perform the opposite to obtain the Plaintext.</p>
+        <p class="lead">A very simple cipher where the key is a number, n. Simply shift the letters n places in the alphabet to generate the Ciphertext. Perform the opposite to obtain the Plaintext. Note that all string are converted to lower case with all special characters and numbers removed.</p>
               <fieldset>
                 <legend>Encrypt</legend>
                 <div class="form-group">
@@ -76,25 +76,41 @@
     </div><!-- /.container -->
     </body>
     <script type="text/javascript">
+        var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        function cipher(shiftn){
+            var i = 0;
+            var cipher = new Array(26);
+            for (i; i < 26; i++){
+                var index = 0;
+                if ((i + shiftn) > 25){
+                    index = (i + shiftn) % 26;
+                }
+                else {
+                    index = i + shiftn;
+                }
+                cipher[i] = alphabet[index];
+            }
+            return cipher;
+        }
+
         function caesarshift(){
-            plaintext = $("#plaintext").val()
-            shifts = parseInt($("#shifts").val())
-            ciphertext = ""
-            shifted = 0
+            plaintext = $("#plaintext").val().toLowerCase().replace(/\W/g, '').replace(/[0-9]/g, '')
+            cipherAlpha = cipher(parseInt($("#shifts").val()))
+            var ciphertext =""
             for (var i = 0; i < plaintext.length; i++) {
-               shifted = plaintext.charCodeAt(i)+shifts;
-               ciphertext = ciphertext + String.fromCharCode(shifted)
+               var index = alphabet.indexOf(plaintext[i])
+               ciphertext = ciphertext+cipherAlpha[index]
             }
             $("#output").val(ciphertext)
         }
         function decaesarshift(){
-            ciphertext = $("#ciphertext").val()
-            shifts = parseInt($("#deshifts").val())
-            plaintext = ""
+            ciphertext = $("#ciphertext").val().toLowerCase().replace(/\W/g, '').replace(/[0-9]/g, '')
+            cipherAlpha = cipher(parseInt($("#shifts").val()))
+            var plaintext = ""
             shifted = 0
             for (var i = 0; i < ciphertext.length; i++) {
-               shifted = ciphertext.charCodeAt(i)-shifts;
-               plaintext = plaintext + String.fromCharCode(shifted)
+               var index = cipherAlpha.indexOf(ciphertext[i])
+               plaintext = plaintext + alphabet[index]
             }
             $("#deoutput").val(plaintext)
         }
