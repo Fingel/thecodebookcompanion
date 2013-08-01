@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Code Book Companion | Caeasar Shift</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+     <!-- Bootstrap -->
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+     
+      <!-- custom -->
+     <link rel="stylesheet" href="css/style.css">
+      
+      <!-- JavaScript plugins (requires jQuery) -->
+      <script src="http://code.jquery.com/jquery.js"></script>
+     
+     <!-- Latest compiled and minified JavaScript -->
+     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+       <div class="row">
+           <div class="col-lg-8">
+           <h1>The Caesar Shift</h1>
+        <p class="lead">A very simple cipher where the key is a number, n. Simply shift the letters n places in the alphabet to generate the Ciphertext. Perform the opposite to obtain the Plaintext.</p>
+              <fieldset>
+                <legend>Encrypt</legend>
+                <div class="form-group">
+                  <label for="plaintext">Plaintext</label>
+                  <input type="text" class="form-control" id="plaintext" placeholder="Enter text to encrypt">
+                </div>
+                <div class="form-group">
+                  <label for="shifts">Number of Shifts</label>
+                  <select class="form-control" id="shifts">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="output">Ciphertext Output</label>
+                    <textarea class="form-control" id="output" rows="3"></textarea>
+                </div>
+                <button class="btn btn-default" onClick="caesarshift()">Encrypt</button>
+              </fieldset>
+              <br/>
+              <fieldset>
+                <legend>Decrypt</legend>
+                <div class="form-group">
+                  <label for="ciphertext">Ciphertext</label>
+                  <input type="text" class="form-control" id="ciphertext" placeholder="Enter text to decrypt">
+                </div>
+                <div class="form-group">
+                  <label for="deshifts">Number of Shifts</label>
+                  <select class="form-control" id="deshifts">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="deoutput">Plaintext Output</label>
+                    <textarea class="form-control" id="deoutput" rows="3"></textarea>
+                </div>
+                <button class="btn btn-default" onClick="decaesarshift()">Decrypt</button>
+              </fieldset>
+              <h2><a href="index.html">Back</a></h2>
+            </div>
+
+        </div>
+    </div><!-- /.container -->
+    </body>
+    <script type="text/javascript">
+        function caesarshift(){
+            plaintext = $("#plaintext").val()
+            shifts = parseInt($("#shifts").val())
+            ciphertext = ""
+            shifted = 0
+            for (var i = 0; i < plaintext.length; i++) {
+               shifted = plaintext.charCodeAt(i)+shifts;
+               ciphertext = ciphertext + String.fromCharCode(shifted)
+            }
+            $("#output").val(ciphertext)
+        }
+        function decaesarshift(){
+            ciphertext = $("#ciphertext").val()
+            shifts = parseInt($("#deshifts").val())
+            plaintext = ""
+            shifted = 0
+            for (var i = 0; i < ciphertext.length; i++) {
+               shifted = ciphertext.charCodeAt(i)-shifts;
+               plaintext = plaintext + String.fromCharCode(shifted)
+            }
+            $("#deoutput").val(plaintext)
+        }
+    </script>
+
+</html>
+

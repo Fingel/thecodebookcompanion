@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Code Book Companion | Frequency Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+     <!-- Bootstrap -->
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+     
+      <!-- custom -->
+     <link rel="stylesheet" href="css/style.css">
+      
+      <!-- JavaScript plugins (requires jQuery) -->
+      <script src="http://code.jquery.com/jquery.js"></script>
+      
+      <!-- HighCharts -->
+      <script src="http://code.highcharts.com/highcharts.js"</script>
+     
+     <!-- Latest compiled and minified JavaScript -->
+     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+       <div class="row">
+           <div class="col-lg-8">
+               <h1>Frequency Analysis</h1>
+               <p class="lead">Use this page to compare the frequency analysis of two texts.</p>
+               <p>The input on the left has been prepopulated with a passage from a popular novel. It's 
+               frequency analysis shows the standard distribution for the english language.</p>
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4" id="left">
+                <div class="form-group" >
+                    <label for="input1">Input Text</label>
+                    <textarea class="form-control input frequency" id="input1" rows="3">The hallway smelt of boiled cabbage and old rag mats. At one end of it a coloured poster, too large for indoor display, had been tacked to the wall. It depicted simply an enormous face, more than a metre wide: the face of a man of about forty-five, with a heavy black moustache and ruggedly handsome features. Winston made for the stairs. It was no use trying the lift. Even at the best of times it was seldom working, and at present the electric current was cut off during daylight hours. It was part of the economy drive in preparation for Hate Week. The flat was seven flights up, and Winston, who was thirty-nine and had a varicose ulcer above his right ankle, went slowly, resting several times on the way. On each landing, opposite the lift-shaft, the poster with the enormous face gazed from the wall. It was one of those pictures which are so contrived that the eyes follow you about when you move. BIG BROTHER IS WATCHING YOU, the caption beneath it ran. </textarea>
+                 <br/>
+                 <button class="btn btn-default" onClick="loadChart($('#left'))">Analyze</button>
+                </div>
+                <div id="chart1" class="chart">hi</div>
+            </div>
+            <div class="col-lg-4" id="right">
+                <div class="form-group">
+                    <label for="input2">Input Text</label>
+                    <textarea class="form-control input frequency" id="input2" rows="3" placeholder="Enter text to analyze"></textarea>
+                    <br/>
+                    <button class="btn btn-default" onClick="loadChart($('#right'))">Analyze</button>
+                </div>
+                <div id="chart2" class="chart"></div>
+            </div>
+        </div>
+        <h2><a href="index.html">Back</a></h2>
+    </div><!-- /.container -->
+    </body>
+    <script type="text/javascript">
+    function loadChart(div){
+        text = $(div).find('.input').val()
+        text = text.toLowerCase().replace(/\W/g, '')
+        chart = $(div).find('.chart').highcharts(options)
+        var letters = {a:0,b:0,c:0,d:0,e:0,f:0,g:0,h:0,i:0,j:0,k:0,l:0,m:0,n:0,o:0,p:0,q:0,r:0,s:0,t:0,u:0,v:0,w:0,x:0,y:0,z:0}
+        for (var i = 0; i < text.length; i++) {
+           letter = text.charAt(i)
+           letters[letter] = letters[letter] || 0
+           letters[letter]++;
+
+        }
+        var arr = []
+        for(letter in letters){
+            arr.push([
+                letter,
+                letters[letter]
+            ])
+        }
+        arr = arr.sort(function(a,b){
+            return (a[0] < b[0]) ? -1 : ((a[0] > b[0]) ? 1 : 0);
+        });
+        chart = $(div).find('.chart').highcharts()
+        chart.series[0].setData([])
+        for(item in arr){
+            chart.series[0].addPoint(arr[item])
+        }
+
+    }
+    options = {
+            chart: {
+                type: 'bar',
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                categories: ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',
+                            'p','q','r','s','t','u','v','w','x','y','z'],
+            },
+            yAxis: {
+                min: 0,
+                labels: {
+                    overflow: 'justify'
+                },
+                title: {
+                    text: null
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Frequency',
+                data: []
+            }]
+    }
+    $(document).ready(function(){
+        loadChart($('#left'))
+    })
+
+    </script>
+
+</html>
+
