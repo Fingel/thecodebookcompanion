@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Code Book Companion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+     <!-- Bootstrap -->
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+     
+     <!-- custom -->
+     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+     
+     <!-- Latest compiled and minified JavaScript -->
+     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+     
+
+
+
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+         <h4>Alice</h4>
+         <form id="step1">
+            <fieldset>
+            <legend>Step 1</legend>
+             <p class="help-block">Acting as Alice, choose a secret number and two primes.</p>
+             <p class="help-block">Your public key will be generated from this information</p>
+            <div class="form-group has-error">
+                <label for="alicesecret">Alice's Secret</label>
+                <input type="number" id="alicesecret" class="form-control input-small" placeholder="Secret">
+             </div>
+             
+            <div class="form-group has-success">
+                <label for="prime1">Prime #1</label>
+                <input type="number" class="form-control input-small" id="prime1" placeholder="Prime 1">
+                <label for="prime2">Prime #2</label>
+                <input type="number" class="form-control input-small" id="prime2" placeholder="Prime 2">
+                <br/>
+                <button class="btn btn-small" type="button" onclick="step1g()">Generate public key</button>
+                <br/><br/>
+                <div id="alicepublickeydiv" style="display:none">
+                    <label for="prime2">Alice's public key</label>
+                    <input type="number" disabled class="form-control input-small" id="aliceA" placeholder="?">
+                    <br/>
+                    <button class="btn btn-small" type="button" onclick="step1()">Send public key and primes to Bob</button>
+                </div>
+            </div>
+            
+            <div class="alert alert-danger" style="display:none" id="step1error">
+             <button type="button" class="close" data-dismiss="alert">&times;</button>
+             <span id="step1text"></span></div>
+            </fieldset>
+        </form>
+        <br/>
+        <form id="step3" class="step3" style="display:none">
+            <fieldset>
+                <legend>Step 3</legend>
+                <div class="form-group has-success">
+                <label for="alicebobpublic">Bob's Public</label>
+                <input type="number" class="form-control input-small bobpublic" id="alicebobpublic" placeholder="Bob pub" disabled>
+                </div>
+                <div class="form-group has-error">
+                <label for="alicesharedsecret">Secret Key</label>
+                <input type="number" class="form-control input-small" id="alicesharedsecret" placeholder="Secret Key" disabled>
+            </div>
+            <button class="btn btn-small" type="button" onclick="step3()">Calculate Secret Key</button>    
+            </fieldset>
+        </form>
+        </div>
+        <div class="col-sm-4">
+         <h4>Eve</h4>
+         <form>
+            <fieldset>
+            <legend>Knows</legend>
+            <p class="help-block">Here we see the only information that is exchanged between Alice and Bob,
+            with Eve acting as an eavesdropper.</p>
+            <div class="form-group has-success" id="evestep1" style="display:none">
+                <label for="prime1">Prime #1</label>
+                <input type="number" class="form-control input-small oprime1" placeholder="Prime 1" disabled>
+                <label for="prime2">Prime #2</label>
+                <input type="number" class="form-control input-small oprime2" placeholder="Prime 2" disabled>
+                <label for="evealicepublic">Alice's' public key</label>
+                <input type="number" class="form-control input-small alicepublic" id="evealicepublic" placeholder="Alice pub" disabled>
+            </div>
+            <div class="form-group has-success step3" id="evestep3" style="display:none">
+             <label for="evebobpublic">Bob's Public</label>
+                <input type="number" class="form-control input-small bobpublic" id="evebobpublic" placeholder="Bob pub" disabled>
+            </div>
+            </fieldset>
+        </form>
+        </div>
+        <div class="col-sm-4">
+         <h4>Bob</h4>
+         <form id="step2" style="display:none">
+            <fieldset>
+            <legend>Step 2</legend>
+            <p class="help-block">Acting as Bob, choose a secret key.</p>
+            <p class="help-block">Your public key, as well as the shared secret key, will be generated.</p>
+            <div class="form-group has-success">
+                <label for="prime1">Prime #1</label>
+                <input type="number" class="form-control input-small oprime1" placeholder="Prime 1" disabled>
+                <label for="prime2">Prime #2</label>
+                <input type="number" class="form-control input-small oprime2" placeholder="Prime 2" disabled>
+                <label for="alicepublic">Alice's' public key</label>
+                <input type="number" class="form-control input-small alicepublic" placeholder="Alice pub" id="bobalicepub" disabled>
+            </div>
+            <div class="form-group has-error">
+                <label for="bobsecret">Bob's Secret</label>
+                <input type="number" id="bobsecret" class="form-control input-small" placeholder="Secret">
+             </div>
+              <div class="form-group has-success">
+             <label for="evebobpublic">Bob's Public</label>
+                <input type="number" class="form-control input-small bobpublic" id="bobpublic" placeholder="Bob pub" disabled>
+              </div>
+              <div class="form-group has-error">
+             <label for="evebobpublic">Secret Key</label>
+                <input type="number" class="form-control input-small sharedsecret" id="bobsharedsecret" placeholder="Secret Key" disabled>
+              </div>
+            <button class="btn btn-small" type="button" onclick="step2()">Send public key to Alice</button>
+            </fieldset>
+        </form>
+        </div>
+      </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+             <div class="alert alert-success" style="display:none" id="dhsuccess">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Success! </strong>Both Alice and Bob have come up with the same key, and Eve is still
+                clueless
+             </div>
+        </div>
+    </div>
+    </div> <!-- /container -->
+
+  </body>
+  <script type="text/javascript">
+  function prime(num){
+    if(!num)
+        return false;
+    for (i = 2; i*i <= num; ++i)
+        if (num % i == 0)
+            return false;
+    return true;
+  }
+  
+  function mod(base, exponent, num){
+    ret = 1
+    for (i = 1; i <= exponent; ++i)
+        ret = (ret * base) % num;
+    return ret
+  }
+  
+  function step1g(){
+    p1 = $("#prime1").val()
+    p2 = $("#prime2").val()
+    alices = $("#alicesecret").val()
+  
+    if(!(prime(p1) && prime(p2)) || !alices){
+        $("#prime1").val('')
+        $("#prime2").val('')
+        $("#step1text").html("Please choose 2 prime numbers and a secret number")
+        $("#step1error").show()
+    }
+    else {
+        a = mod(p1, alices, p2)
+        $("#aliceA").val(a)
+        $(".oprime1").val(p1);
+        $(".oprime2").val(p2);
+        $(".alicepublic").val(a)
+        $("#alicepublickeydiv").show()
+    }
+    
+  }
+  
+  function step1(){
+    $("#evestep1").show();
+    $("#step2").show()
+  }
+  
+  function step2(){
+    p1 = $("#prime1").val()
+    p2 = $("#prime2").val()
+    alicespub = $("#bobalicepub").val()
+    bobs = $("#bobsecret").val()
+    b = mod(p1, bobs, p2)
+    $(".bobpublic").val(b)
+    $(".step3").show()
+    secret = mod(alicespub, bobs, p2)
+    $(".sharedsecret").val(secret)
+  }
+  
+  function step3(){
+    p1 = $("#prime1").val()
+    p2 = $("#prime2").val()
+    bobspub = $("#bobpublic").val()
+    alices = $("#alicesecret").val()
+    secret = mod(bobspub, alices, p2)
+    $("#alicesharedsecret").val(secret)
+    bobsecret = $("#bobsharedsecret").val()
+    if(secret == bobsecret)
+        $("#dhsuccess").show()
+  }
+  $(document).ready(function(){
+
+  })
+  </script>
+
+</html>
+

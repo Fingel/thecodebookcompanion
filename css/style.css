@@ -79,3 +79,7 @@ body {
 .frequency {
  height: 200px !important;
 }
+
+#dhsuccess {
+    margin-top: 30px;
+}
