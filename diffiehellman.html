@@ -99,7 +99,8 @@
         </div>
         <div class="col-sm-4">
          <h4>Bob</h4>
-         <form id="step2" style="display:none">
+         <form>
+            <div id="step2" style="display:none">
             <fieldset>
             <legend>Step 2</legend>
             <p class="help-block">Acting as Bob, choose a secret key.</p>
@@ -116,6 +117,10 @@
                 <label for="bobsecret">Bob's Secret</label>
                 <input type="number" id="bobsecret" class="form-control input-small" placeholder="Secret">
              </div>
+             <button class="btn btn-small" type="button" onclick="step2g()">Generate public key and secret key</button>
+              <br/><br/>
+              </div>
+              <div id="step2g" style="display:none">
               <div class="form-group has-success">
              <label for="evebobpublic">Bob's Public</label>
                 <input type="number" class="form-control input-small bobpublic" id="bobpublic" placeholder="Bob pub" disabled>
@@ -125,6 +130,7 @@
                 <input type="number" class="form-control input-small sharedsecret" id="bobsharedsecret" placeholder="Secret Key" disabled>
               </div>
             <button class="btn btn-small" type="button" onclick="step2()">Send public key to Alice</button>
+            </div>
             </fieldset>
         </form>
         </div>
@@ -139,6 +145,7 @@
              </div>
         </div>
     </div>
+    <h2><a href="index.html">Back</a></h2>
     </div> <!-- /container -->
 
   </body>
@@ -186,16 +193,20 @@
     $("#step2").show()
   }
   
-  function step2(){
+  function step2g(){
     p1 = $("#prime1").val()
     p2 = $("#prime2").val()
     alicespub = $("#bobalicepub").val()
     bobs = $("#bobsecret").val()
     b = mod(p1, bobs, p2)
     $(".bobpublic").val(b)
-    $(".step3").show()
     secret = mod(alicespub, bobs, p2)
     $(".sharedsecret").val(secret)
+    $("#step2g").show()
+  }
+  
+  function step2(){
+    $(".step3").show()
   }
   
   function step3(){
